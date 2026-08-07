@@ -1,0 +1,45 @@
+name: ProfilePulse
+
+on:
+  schedule:
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  pulse:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Update activity log
+        run: node index.js
+
+      - name: Configure Git identity
+        env:
+          USER_EMAIL: "github-actions[bot]@users.noreply.github.com"
+          USER_NAME: "github-actions[bot]"
+        run: |
+          git config user.email "$USER_EMAIL"
+          git config user.name "$USER_NAME"
+
+      - name: Commit and push activity log
+        run: |
+          git add activity_log.txt
+          if git diff --cached --quiet; then
+            echo "No activity log changes to commit."
+          else
+            git commit -m 'chore(pulse): automated sync check [skip ci]'
+            git push
+          fi
