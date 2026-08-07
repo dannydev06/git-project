@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: pulse
+    description: ProfilePulse activity operations
 paths:
   /healthz:
     get:
@@ -24,6 +26,49 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /pulse/activity:
+    get:
+      operationId: listPulseActivity
+      tags: [pulse]
+      summary: List ProfilePulse activity
+      description: Returns the newest local activity log entries and a summary.
+      responses:
+        "200":
+          description: Activity history
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PulseActivityResponse"
+        "500":
+          description: Unable to read activity log
+  /pulse/run:
+    post:
+      operationId: runPulse
+      tags: [pulse]
+      summary: Run ProfilePulse now
+      description: Executes the local ProfilePulse logger and returns the new entry.
+      responses:
+        "201":
+          description: Pulse completed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PulseRunResponse"
+        "500":
+          description: Pulse failed
+  /pulse/config:
+    get:
+      operationId: getPulseConfig
+      tags: [pulse]
+      summary: Get ProfilePulse configuration
+      description: Returns the schedule and repository workflow settings shown in the dashboard.
+      responses:
+        "200":
+          description: ProfilePulse configuration
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PulseConfig"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +78,85 @@ components:
           type: string
       required:
         - status
+    PulseActivityEntry:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: string
+        message:
+          type: string
+      required:
+        - timestamp
+        - status
+        - message
+    PulseSummary:
+      type: object
+      properties:
+        totalRuns:
+          type: integer
+        successfulRuns:
+          type: integer
+        failedRuns:
+          type: integer
+        lastRunAt:
+          type: ["string", "null"]
+          format: date-time
+        lastStatus:
+          type: ["string", "null"]
+      required:
+        - totalRuns
+        - successfulRuns
+        - failedRuns
+        - lastRunAt
+        - lastStatus
+    PulseActivityResponse:
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: "#/components/schemas/PulseActivityEntry"
+        summary:
+          $ref: "#/components/schemas/PulseSummary"
+      required:
+        - entries
+        - summary
+    PulseRunResponse:
+      type: object
+      properties:
+        entry:
+          $ref: "#/components/schemas/PulseActivityEntry"
+        summary:
+          $ref: "#/components/schemas/PulseSummary"
+      required:
+        - entry
+        - summary
+    PulseConfig:
+      type: object
+      properties:
+        schedule:
+          type: string
+        scheduleLabel:
+          type: string
+        workflowFile:
+          type: string
+        commitMessage:
+          type: string
+        gitIdentity:
+          type: string
+        permissions:
+          type: string
+        manualTrigger:
+          type: boolean
+      required:
+        - schedule
+        - scheduleLabel
+        - workflowFile
+        - commitMessage
+        - gitIdentity
+        - permissions
+        - manualTrigger
 

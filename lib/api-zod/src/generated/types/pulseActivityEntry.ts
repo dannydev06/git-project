@@ -6,6 +6,8 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface HealthStatus {
+export interface PulseActivityEntry {
+  timestamp: Date;
   status: string;
+  message: string;
 }

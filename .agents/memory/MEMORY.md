@@ -1,0 +1,1 @@
+- [ProfilePulse service paths](profilepulse-service-paths.md) — root-level automation scripts may need repository-root discovery from the API service working directory.

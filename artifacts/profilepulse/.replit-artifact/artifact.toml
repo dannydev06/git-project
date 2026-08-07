@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "ProfilePulse"
+description = "A lightweight dashboard for monitoring and manually running automated GitHub activity logging. It reads the local activity history, shows the latest pulse status, and explains the GitHub Actions schedule and permissions."
+version = "1.0.0"
+id = "artifacts/profilepulse"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 26109
+
+[services.development]
+run = "pnpm --filter @workspace/profilepulse run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/profilepulse", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/profilepulse/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "26109"
+BASE_PATH = "/"
