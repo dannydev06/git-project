@@ -227,7 +227,7 @@ function Dashboard() {
           <header className="flex items-center justify-between border-b border-[#ded9cd] bg-[#f7f4ed]/85 px-5 py-5 backdrop-blur-sm md:px-10 md:py-7">
             <div>
               <div className="mb-1 flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#8d8b84]"><span className="h-1.5 w-1.5 rounded-full bg-[#ef654c]" /> {focusLabel}</div>
-              <h1 data-testid="text-page-title" className="font-display text-2xl font-bold tracking-[-0.045em] md:text-[29px]">Good morning, Alex.</h1>
+              <h1 data-testid="text-page-title" className="font-display text-2xl font-bold tracking-[-0.045em] md:text-[29px]">Good morning, Daniel.</h1>
             </div>
             <div className="flex items-center gap-2">
               <div data-testid="status-system-health" className="hidden items-center gap-2 rounded-full border border-[#d8e6da] bg-[#edf6ee] px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.11em] text-[#34724c] sm:flex">
