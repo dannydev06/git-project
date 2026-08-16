@@ -28,8 +28,8 @@ jobs:
 
       - name: Configure Git identity
         env:
-          USER_EMAIL: "github-actions[bot]@users.noreply.github.com"
-          USER_NAME: "github-actions[bot]"
+          USER_EMAIL: "154925968+dannydev06@users.noreply.github.com"
+          USER_NAME: "dannydev06"
         run: |
           git config user.email "$USER_EMAIL"
           git config user.name "$USER_NAME"
